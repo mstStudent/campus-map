@@ -6,4 +6,6 @@ Add buttons / menus to top bar
 
 remove copy/pasted comments / code we don't need
 
+look into toastr to replace welcome message http://codeseven.github.io/toastr/ cause the toastr message will fade a way after a time and looks neat, we can do some rough coding to do the same our selves though if we want.
+
 Update todo with more tasks that need to be done!
