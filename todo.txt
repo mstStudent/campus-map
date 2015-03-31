@@ -4,6 +4,6 @@ Add method to update database with floors / rooms drawn.
 Add leaflet indoor or just have leaflet draw it out but add in custom classes for the actual bulding maps we want to show.
 Add buttons / menus to top bar
 
-
+remove copy/pasted comments / code we don't need
 
 Update todo with more tasks that need to be done!
