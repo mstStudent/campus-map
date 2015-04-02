@@ -31,3 +31,8 @@ margin: 0 auto;
   margin: 0px;
 
 }
+
+#stPats{
+  right: 30px;
+  position: absolute;
+}
