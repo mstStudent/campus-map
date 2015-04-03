@@ -1,9 +1,14 @@
-var campus_map = L.map('map').setView([37.95451, -91.77386], 17);
+var campus_map = L.map('map', {
+                                 center: [37.95451, -91.77386],
+                                 zoom: 17,
+                                 maxZoom: 25,
+                                 minZoom: 15,
+                                 maxBounds: [[37.96656, -91.79899],[37.91651, -91.72917]]
+                              });
 
 L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery   <a href="http://cloudmade.com">CloudMade</a>',
     subdomain: ['a','b','c'],
-    maxZoom: 25,
 }).addTo(campus_map);
 
 
