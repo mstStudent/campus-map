@@ -49,7 +49,7 @@ campus_map.on('draw:created', function (e) {
                 var popup = L.popup();
                 var content = "";
                 layer._latlngs.forEach(function(value){
-                        content = content + value['lat']+' , ' + value['lng'] + '<br><br>';
+                        content = content + value['lat']+' , ' + value['lng'] + '<br>';
                 });
                 var update = confirm("Update the Room Number/name?");
                         if(update){
@@ -60,6 +60,20 @@ campus_map.on('draw:created', function (e) {
                 layer.bindPopup(popup).openPopup();
         });
 });
+
+
+
+var temp = 'css/images/Capture.PNG', imageBounds = [[37.953699, -91.77432], [37.953398, -91.77390]]; // Math Building G
+
+var temp_1 = L.imageOverlay(temp, imageBounds);
+
+temp_1.addTo(campus_map);
+
+temp_1.setOpacity(.5);
+
+
+
+
 
 L.control.mousePosition().addTo(campus_map);
 
