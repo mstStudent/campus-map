@@ -35,13 +35,15 @@ campus_map.on('draw:created', function (e) {
         drawnItems.addLayer(layer);
         var content = "";
         layer._latlngs.forEach(function(value){
-                content = content + value['lat']+' , ' + value['lng'] + '<br><br>';
+                content = content + value['lat']+' , ' + value['lng'] + '<br>';
         });
+   /*
         var update = confirm("Already Know the Room Number/name?");
                 if(update){
                         layer.roomName = prompt("Name",'Room #');
                 }
-        popup.setContent(String(layer.roomName)+'<br>'+content)
+               */ 
+        popup.setContent(content+'<br>')
 
         layer.bindPopup(popup).openPopup();
 
@@ -50,12 +52,12 @@ campus_map.on('draw:created', function (e) {
                 var content = "";
                 layer._latlngs.forEach(function(value){
                         content = content + value['lat']+' , ' + value['lng'] + '<br>';
-                });
+                });/*
                 var update = confirm("Update the Room Number/name?");
                         if(update){
                                 layer.roomName = prompt("Name",'Room #');
-                        }
-                popup.setContent(String(layer.roomName)+'<br>'+content)
+                        }*/
+                popup.setContent(content+'<br>')
 
                 layer.bindPopup(popup).openPopup();
         });
@@ -72,8 +74,4 @@ temp_1.addTo(campus_map);
 temp_1.setOpacity(.5);
 
 
-
-
-
 L.control.mousePosition().addTo(campus_map);
-
