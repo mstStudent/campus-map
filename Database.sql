@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS Rooms
 	number CHARACTER(5) NOT NULL,
 	floor SMALLINT,
 	seatCount SMALLINT,
+	FOREIGN KEY (buildingID) REFERENCES Buildings(ID),
 	leafletID  SMALLINT,
 	PRIMARY KEY (ID)
 );
