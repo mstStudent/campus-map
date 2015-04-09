@@ -121,11 +121,37 @@
     
     <!------------MAP----------------->
     
-    <div id="map" class="container">
-
-    </div> 
+    <div id="map" class="container"></div>
     <!-- -->
-    
+    <div id="add_Room">
+      <button id="addRoom">Add Room</button>
+      Select Floor
+      <select id="floorSelect">
+       <option>0</option>
+       <option>1</option>
+       <option>2</option>
+       <option>3</option>
+      </select>
+      <input id="buildingName_forRooms" value="Building Name"></input>
+    </div>
+    <div>
+      <button id="addBuilding">Add Building</button>
+      <input id="buildingName" value="Building Name"></input>
+      How Many Floors
+      <select id="numFloorsSelect">
+       <option>0</option>
+       <option>1</option>
+       <option>2</option>
+       <option>3</option>
+      </select>
+      Main Floor
+      <select id="mainFloorSelect">
+       <option>0</option>
+       <option>1</option>
+       <option>2</option>
+       <option>3</option>
+      </select>
+    </div>
     <img src="css/images/logo.png" alt="enigma logo"> 
     <iframe id="stPats" width="375" height="185" src="https://www.onlinecountdowns.com/w/147878" frameborder="0"></iframe>
     
@@ -137,7 +163,7 @@
       <script src="js/L.Control.MousePosition.js"></script>
 
       <!-- Scripts the team developed -->
-
       <script src="js/map.js"></script>
+      <script src="js/index.js"></script>
   </body>
 </html>

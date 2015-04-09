@@ -8,4 +8,18 @@ remove copy/pasted comments / code we don't need
 
 look into toastr to replace welcome message http://codeseven.github.io/toastr/ cause the toastr message will fade a way after a time and looks neat, we can do some rough coding to do the same our selves though if we want.
 
+change 'Campus Map' to 'MinerMap' or 'Miner Map' whatever the app name really is just change it to that.
+
+Make text in bootstrap bar more noticable or easier to read.
+
 Update todo with more tasks that need to be done!
+
+Put sql file anywhere in project
+go to git bash 
+cd C:\xampp\htdocs\campus-map
+optional git status
+git add FILE_LOCATION 
+git commit -m "COMMMIT MESSAGE"
+MAKE GITHUB ACCOUNT
+TELL JOE WHAT USERNAME IS!
+git push
