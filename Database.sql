@@ -1,5 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `campus_map`;
-use `campus_map`; 
+use `campus_map`;
+
+GRANT ALL ON `campus_map`.* to 'mapuser'@'localhost' identified by 'MinerMapper15!';
 
 CREATE TABLE IF NOT EXISTS Buildings
 (
@@ -13,12 +15,13 @@ CREATE TABLE IF NOT EXISTS Buildings
 CREATE TABLE IF NOT EXISTS Rooms
 (
 	ID SMALLINT NOT NULL AUTO_INCREMENT,
+	buildingID SMALLINT NOT NULL,
 	number CHARACTER(5) NOT NULL,
 	floor SMALLINT,
 	seatCount SMALLINT,
-	FOREIGN KEY (buildingID) REFERENCES Buildings(ID),
 	leafletID  SMALLINT,
-	PRIMARY KEY (ID)
+	PRIMARY KEY (ID),
+	FOREIGN KEY (buildingID) REFERENCES Buildings(ID)
 );
 
 CREATE TABLE IF NOT EXISTS Instructors
@@ -41,6 +44,7 @@ CREATE TABLE IF NOT EXISTS Coordinates
 	roomID SMALLINT NOT NULL,
 	latitude FLOAT(10,5) NOT NULL,
 	longitude FLOAT(10,5) NOT NULL,
+	pointOrder SMALLINT,
 	PRIMARY KEY (latitude, longitude,roomID),
 	FOREIGN KEY (buildingID) REFERENCES Buildings(ID),
 	FOREIGN KEY (roomID) REFERENCES Rooms(ID)
