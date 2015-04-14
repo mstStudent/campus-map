@@ -34,14 +34,14 @@
 
 		
 		// get BuildingID by Name
-		getBuildingID( $buildingName ) {
+		public function getBuildingID( $buildingName ) {
 		
 			$query = "select ID from buildings where name = '" . $buildingName . "';";
 			return $this->queryDB( $query );
 		}
 		
 		// get all coordinates for a building, by name
-		getBuildingCoords( $buildingName ) {
+		public function getBuildingCoords( $buildingName ) {
 		
 			$query = "select latitude, longitude from coordinates where buildingID in "
 			. "( select id from buildings where name = '" . $buildingName . "' );";
