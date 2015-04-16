@@ -5,7 +5,7 @@ GRANT ALL ON `campus_map`.* to 'mapuser'@'localhost' identified by 'MinerMapper1
 
 CREATE TABLE IF NOT EXISTS Buildings
 (
-	ID SMALLINT NOT NULL AUTO_INCREMENT,
+	ID CHAR(10) NOT NULL,
 	name CHARACTER(30),
 	floorCount SMALLINT,
 	defFloor SMALLINT,
@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS Buildings
 
 CREATE TABLE IF NOT EXISTS Rooms
 (
-	ID SMALLINT NOT NULL AUTO_INCREMENT,
-	buildingID SMALLINT NOT NULL,
+	ID CHAR(10) NOT NULL,
 	number CHARACTER(5) NOT NULL,
 	floor SMALLINT,
 	seatCount SMALLINT,
@@ -26,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Rooms
 
 CREATE TABLE IF NOT EXISTS Instructors
 (
-	ID SMALLINT NOT NULL AUTO_INCREMENT,
+	ID CHAR(30) NOT NULL,
 	fName CHARACTER(30),
 	lName CHARACTER(30),
 	dept CHARACTER(30),
@@ -40,8 +39,8 @@ CREATE TABLE IF NOT EXISTS Coordinates
 (
 	roomFlag BOOLEAN,
 	outdoorFlag BOOLEAN,
-	buildingID SMALLINT NOT NULL,
-	roomID SMALLINT NOT NULL,
+	buildingID CHARACTER(10) NOT NULL,
+	roomID CHARACTER(10) NOT NULL,
 	latitude FLOAT(10,5) NOT NULL,
 	longitude FLOAT(10,5) NOT NULL,
 	pointOrder SMALLINT,
@@ -59,8 +58,8 @@ CREATE TABLE IF NOT EXISTS Events
 	startTime TIME,
 	endTime TIME,
 	section CHARACTER(1),
-	instructor SMALLINT NOT NULL,
-	room SMALLINT NOT NULL,
+	instructor char(30) NOT NULL,
+	room char(10) NOT NULL,
 	days BINARY(7),
 	PRIMARY KEY (ID),
 	FOREIGN KEY (instructor) REFERENCES Instructors(ID),
