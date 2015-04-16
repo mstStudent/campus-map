@@ -187,7 +187,6 @@ CREATE TABLE IF NOT EXISTS `events` (
 --
 
 CREATE TABLE IF NOT EXISTS `instructors` (
-  `ID` char(30) NOT NULL,
   `fName` char(30) DEFAULT NULL,
   `lName` char(30) DEFAULT NULL,
   `dept` char(30) DEFAULT NULL,
@@ -259,7 +258,7 @@ ALTER TABLE `events`
 -- Indexes for table `instructors`
 --
 ALTER TABLE `instructors`
- ADD PRIMARY KEY (`ID`);
+ ADD PRIMARY KEY (`email`);
 
 --
 -- Indexes for table `rooms`
