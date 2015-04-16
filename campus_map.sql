@@ -290,7 +290,7 @@ ADD CONSTRAINT `coordinates_ibfk_2` FOREIGN KEY (`roomID`) REFERENCES `rooms` (`
 -- Constraints for table `events`
 --
 ALTER TABLE `events`
-ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`instructor`) REFERENCES `instructors` (`ID`),
+ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`instructor`) REFERENCES `instructors` (`email`),
 ADD CONSTRAINT `events_ibfk_2` FOREIGN KEY (`room`) REFERENCES `rooms` (`ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
