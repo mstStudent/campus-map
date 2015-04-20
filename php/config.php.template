@@ -1,0 +1,10 @@
+﻿<?php
+
+return array(
+  'host' => 'HOST',
+  'username' => 'DB USER',
+	'pass' =>  'DB USER's PASSWORD',
+	'dbname' => 'DATABASE TO USE'
+);
+
+?>

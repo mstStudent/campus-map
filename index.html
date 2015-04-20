@@ -1,6 +1,4 @@
-﻿<?php require("./php/dbHandler.php"); ?>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -166,15 +164,17 @@
       <script src="js/L.Control.MousePosition.js"></script>
 
 	  <script>
-         var data = <?php echo $database->getAllBuildingNames(); ?>;
-		 var mapData = [];
-/*
-		 data.forEach(function (building) {
-		   var temp = String(building.name);
-           mapData.push(<?php echo $database->getBuildingCoords(temp); ?>);
-         });
-		 */
-		 console.log(data);
+        var mapData = [];
+	    // lazier way to do ajax get
+        $.get("php/getAllBuildings.php", function (buildings) {
+		  // the ajax will return a string, which is useless to us so eval just evaluates what the hell the string actually is (i.e. it makes an object)
+            eval(buildings).forEach(function (building) {
+                var temp = String(building.name);
+                mapData.push(building.name);
+            });
+        })
+
+        console.log(mapData);
 
 	  </script>
 
