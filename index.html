@@ -169,12 +169,16 @@
         $.get("php/getAllBuildings.php", function (buildings) {
 		  // the ajax will return a string, which is useless to us so eval just evaluates what the hell the string actually is (i.e. it makes an object)
             eval(buildings).forEach(function (building) {
-                var temp = String(building.name);
+
+		          $.get("php/getAllBuildingCoords.php", {bName: building.name}, function (latLng) {
+		             console.log("LatLng: ", eval(latLng));
+		          });
                 mapData.push(building.name);
             });
+		          console.log(mapData);
+
         })
 
-        console.log(mapData);
 
 	  </script>
 
