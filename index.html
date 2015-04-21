@@ -152,6 +152,7 @@
        <option>3</option>
       </select>
     </div>
+      <button id="theButton">BUTTON</button>
     <img src="css/images/logo.png" alt="enigma logo"> 
     <iframe id="stPats" width="375" height="185" src="https://www.onlinecountdowns.com/w/147878" frameborder="0"></iframe>
     
@@ -162,7 +163,28 @@
       <script src="js/leaflet.draw-src.js"></script>
       <script src="js/L.Control.MousePosition.js"></script>
 
+	  <script>
+        var mapData = [];
+		var build = {};
+	    // lazier way to do ajax get
+        $.get("php/getAllBuildings.php", function (buildings) {
+		  // the ajax will return a string, which is useless to us so eval just evaluates what the hell the string actually is (i.e. it makes an object)
+            eval(buildings).forEach(function (building) {
+		          build.name = building.name;
+		          $.get("php/getAllBuildingCoords.php", {bName: building.name}, function (latLng) {
+		             build.latlng = eval(latLng);
+		             console.log("LatLng: ", eval(latLng));
+		          });
+            mapData.push(build);
+            });
+		    console.log(mapData);
+        })
+
+
+	  </script>
+
       <!-- Scripts the team developed -->
+      
       <script src="js/map.js"></script>
       <script src="js/index.js"></script>
   </body>

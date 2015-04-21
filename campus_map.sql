@@ -10,6 +10,10 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE DATABASE IF NOT EXISTS `campus_map`;
+use `campus_map`;
+
+GRANT ALL ON `campus_map`.* to 'mapuser'@'localhost' identified by 'MinerMapper15!';
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -183,7 +187,6 @@ CREATE TABLE IF NOT EXISTS `events` (
 --
 
 CREATE TABLE IF NOT EXISTS `instructors` (
-  `ID` char(30) NOT NULL,
   `fName` char(30) DEFAULT NULL,
   `lName` char(30) DEFAULT NULL,
   `dept` char(30) DEFAULT NULL,
@@ -255,7 +258,7 @@ ALTER TABLE `events`
 -- Indexes for table `instructors`
 --
 ALTER TABLE `instructors`
- ADD PRIMARY KEY (`ID`);
+ ADD PRIMARY KEY (`email`);
 
 --
 -- Indexes for table `rooms`
@@ -287,7 +290,7 @@ ADD CONSTRAINT `coordinates_ibfk_2` FOREIGN KEY (`roomID`) REFERENCES `rooms` (`
 -- Constraints for table `events`
 --
 ALTER TABLE `events`
-ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`instructor`) REFERENCES `instructors` (`ID`),
+ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`instructor`) REFERENCES `instructors` (`email`),
 ADD CONSTRAINT `events_ibfk_2` FOREIGN KEY (`room`) REFERENCES `rooms` (`ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
