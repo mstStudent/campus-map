@@ -1,92 +1,99 @@
 <?php
 
-	// Lance Pendergrass
-	// mySQL Database Handler
-
-	// Database Constants
-	define("DB_SERVER", "localhost");
-	define("DB_USER", "mapuser");
-	define("DB_PASS", "MinerMapper15!");
-	define("DB_NAME", "campus_map");
-
-	// Database Handler Class
-	class mySQLDatabase {
-
-		// Attributes
-		private $connection;
-
-		// Constructor
-		function __construct() {
-			$this->openConnection();
-		}
-
-		// METHOD DEFINITIONS
-
-		// Create mySQL Connection
-		public function openConnection() {
-
-			$this->connection = mysqli_connect( DB_SERVER, DB_USER, DB_PASS, DB_NAME )
-				OR die( "Database connection failed: " . mysqli_connect_error() );
-
-			// Set the encoding
-			mysqli_set_charset( $this->connection, 'utf8' );
-		}
-
-		
-		// get BuildingID by Name
-		public function getBuildingID( $buildingName ) {
-		
-			$query = "select ID from buildings where name = '" . $buildingName . "';";
-			return $this->queryDB( $query );
-		}
-		
-		// get all coordinates for a building, by name
-		public function getBuildingCoords( $buildingName ) {
-		
-			$query = "select latitude, longitude from coordinates where buildingID in "
-			. "( select id from buildings where name = '" . $buildingName . "' );";
-		
-			return $this->queryDB( $query );
-		}
-		
-		// Query Database
-		private function queryDB( $sqlQuery ) {
-
-			// Perform Query
-			$result = mysqli_query( $this->connection, $sqlQuery );
-
-			// If msqli_query object is desired...
-			#return $result;
-
-			// If JSON is desired...
-			return $this->result2JSON( $result );
-		}
-
-		// Convert result resource into JSON
-		private function result2JSON( $result ) {
-			
-			$array = array();
-
-			// Convert result object to array
-			while( $row = mysqli_fetch_object( $result ) )
-				$array[] = $row;
-
-			// Convert array to json, return
-			return json_encode( $array );
-		}
-
-		// Close Connection
-		public function closeConnection() {
-
-			if( isset( $this->connection ) ) {
-				mysqli_close( $this->connection );
-				unset( $this->connection );
-			}
-		}
+/*
+	Developer: Lance Pendergrass
+	File: dbHandler.php
+	Desc: PHP mySQL database hanndler.
+	Makes use of newer PHP Data Objects (PDOs)
+*/
 
 
+// Database Constants (to be relocated)
+define("DB_SERVER", "localhost");
+define("DB_USER", "mapuser");
+define("DB_PASS", "MinerMapper15!");
+define("DB_NAME", "campus_map");
+
+// Set JSON MIME Type
+header("Content-type: application/json");
+
+// Create PDO Data Source Name
+$dsn = 'mysql:host=' . DB_SERVER . ';dbname=' . DB_Name;
+
+// Create DB Connection
+try { $db = new PDO($dsn, $username, $password); }
+catch(PDOException $e) { die('DB Connection Failed:' . $e); }
+
+// For sanitizing input
+function cleanInput( $data ) {
+	$data = stripslashes($data);
+	$data = real_escape_string($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
+
+
+/* QUERY DEFINITIONS */
+
+// get BuildingID by Name
+function getBuildingID() {
+
+	$query = 'SELECT id FROM buildings WHERE name = :buildingName';
+
+	if( isSet( $_GET['buildingName'] ) ) {
+
+		$buildingName = cleanInput( $_GET['buildingName'] );
+	
+		$stmt = $db->prepare( $query );
+		$stmt->bindParam(':buildingName', $buildingName, PDO::PARAM_STR);
+	
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+	
+	return json_encode( $results );
+}
 
-	// Instantiate Database Handler
-	$database = new mySQLDatabase();
+
+// get all coordinates for a building, by name
+function getBuildingCoords() {
+
+	$query = 'SELECT latitude, longitude FROM coordinates WHERE buildingID IN '
+		. '( SELECT id FROM buildings WHERE name = :buildingName)';
+
+	if( isSet( $_GET['buildingName'] ) ) {
+
+		$buildingName = cleanInput( $_GET['buildingName'] );
+	
+		$stmt = $db->prepare( $query );
+		$stmt->bindParam(':buildingName', $buildingName, PDO::PARAM_STR);
+	
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	return json_encode( $results );
+}
+
+
+/* MAIN ENTRY LOGIC */
+
+// Determine which query to invoke
+if( isset( $_GET['function'] ) ) {
+
+	$function = cleanInput( $_GET['function'] );
+
+    if( $function == 'getBuildingID' )
+		return getBuildingID();
+		
+    elseif($function == 'getBuildingCoords')
+		return getBuildingCoords();
+		
+	//elseif...other query request
+}
+
+
+// Close DB Connection
+$db = null;
+
 ?>

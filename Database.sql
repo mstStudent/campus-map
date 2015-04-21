@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS Coordinates
 	latitude FLOAT(10,5) NOT NULL,
 	longitude FLOAT(10,5) NOT NULL,
 	pointOrder SMALLINT,
-	PRIMARY KEY (latitude, longitude,roomID),
+	PRIMARY KEY (latitude, longitude, roomID),
 	FOREIGN KEY (buildingID) REFERENCES Buildings(ID),
 	FOREIGN KEY (roomID) REFERENCES Rooms(ID)
 );
