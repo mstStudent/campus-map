@@ -2,7 +2,7 @@
 ##4-9-15
 ##creates a csv that can be used to populate the coordinates and room
 ##table in the database for MinerMap
-
+##
 ##
 ##readme:
 ##
