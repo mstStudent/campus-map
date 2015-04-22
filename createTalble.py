@@ -5,7 +5,7 @@
 
 import time
 
-def getRoomInfo():
+def getRoomInfo(buildingID,buildingAbv,floorNum):
     '''Prompts user for room info
         and returns the room's info and coordinate list'''
 
@@ -21,11 +21,14 @@ def getRoomInfo():
     outdoorFlag = '0'
     leafID = '0'
 
-    buildingID = raw_input("buildingID: ")
+##    temp removed
+##    buildingID = raw_input("buildingID: ")
+##    buildingAbv = raw_input("building abbreviation: ")
+##    floorNum = raw_input("what floor? ")
+
     roomID = raw_input("roomID: ")
-    
     numSeats = raw_input("how many seats? ")
-    floorNum = raw_input("what floor? ")
+    
     
 
     latLng = []
@@ -33,7 +36,7 @@ def getRoomInfo():
 
 ##    allows the user to copy in coordinates seperated by a new line
 
-    print "enter lat, lng: "
+    print "enter: lat, lng: "
     print "end by enter an empty line"
     while(empty == False):
         temp = raw_input()
@@ -53,7 +56,7 @@ def getRoomInfo():
 
 ##    creates the room info table
 
-    roomInfo.append([roomID, roomID, floorNum, numSeats, leafID])
+    roomInfo.append([buildingAbv + roomID, roomID, floorNum, numSeats, leafID])
 
     return roomCoord , roomInfo
     
@@ -98,16 +101,26 @@ def main():
     coordFile = raw_input('coordinates file: ')
     roomFile = raw_input('room file: ')
 
-
     while(True):
-        roomCoordList , roomInfoList = getRoomInfo()
 
-        updateFile(coordFile, roomCoordList)
-        updateFile(roomFile, roomInfoList)
+        buildingID = raw_input("Building ID: ")
+        buildingAbv = raw_input("Building's Abbrevation: ")
+        floor = raw_input("Floor: ")
+        
 
-        goAgain = raw_input("add another Room? ('n' or defaults yes): ")
+        while(True):
+            roomCoordList , roomInfoList = getRoomInfo(buildingID,buildingAbv,floor)
 
-        if (goAgain == 'n'):
+            updateFile(coordFile, roomCoordList)
+            updateFile(roomFile, roomInfoList)
+
+            goAgain = raw_input("add another room to this floor? ('n' or defaults yes): ")
+
+            if (goAgain == 'n'):
+                break
+
+        goAgain = raw_input("Add another room? ('n' or defaults yes): ")
+        if(goAgain == 'n'):
             break
 
     formatFile(coordFile)
