@@ -3,7 +3,42 @@
 ##creates a csv that can be used to populate the coordinates and room
 ##table in the database for MinerMap
 
-import time
+##
+##readme:
+##
+##run program:
+##    coordinates file -> the csv file containing the room coordinates (roomCoord.csv)
+##    room file -> the csv file containing the room info (roomInfo.csv)
+##
+##    next three are only asked once per floor:
+##        building ID -> the id of the building stored in the database
+##        building's Abbrevation -> the abbrevation of the building used in the database
+##        floor -> the floor that the rooms are on
+##    room Name -> the rooms name/number (not unique)
+##    
+##    enter: lat,lng -> lat and lng coordinates for each point:
+##        must be seperated by a ','
+##        each pair must be seperated by a new line
+##
+##    add another room to this floor? -> <n> if you want to change floor or building
+##
+##    Add another room?:
+##        <enter> to add a room to another building or floor
+##        <n> to exit program and save
+##        
+##importing into database:
+##    run xampp:
+##        launch mySQL admin:
+##            insert the building if a new building is worked on:
+##            import into rooms:
+##                select the room info file (roomInfo.csv)
+##                check 'Do not abort on INSERT error'
+##                click go
+##            import into coordinates:
+##                select the coordinate file (roomCoord.csv)
+##                check 'Do not abort on INSERT error'
+##                click go
+
 
 def getRoomInfo(buildingID,buildingAbv,floorNum):
     '''Prompts user for room info
@@ -20,14 +55,17 @@ def getRoomInfo(buildingID,buildingAbv,floorNum):
     roomFlag = '1'
     outdoorFlag = '0'
     leafID = '0'
+    numSeats = '0'
 
 ##    temp removed
 ##    buildingID = raw_input("buildingID: ")
 ##    buildingAbv = raw_input("building abbreviation: ")
 ##    floorNum = raw_input("what floor? ")
+##    numSeats = raw_input("how many seats? ")
 
-    roomID = raw_input("roomID: ")
-    numSeats = raw_input("how many seats? ")
+    roomName = raw_input("Room Name: ")
+    roomID = buildingAbv + roomName
+    
     
     
 
@@ -56,7 +94,7 @@ def getRoomInfo(buildingID,buildingAbv,floorNum):
 
 ##    creates the room info table
 
-    roomInfo.append([buildingAbv + roomID, roomID, floorNum, numSeats, leafID])
+    roomInfo.append([roomID, roomName, floorNum, numSeats, leafID])
 
     return roomCoord , roomInfo
     

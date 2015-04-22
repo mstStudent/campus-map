@@ -43,7 +43,7 @@ campus_map.on('draw:created', function (e) {
                         layer.roomName = prompt("Name",'Room #');
                 }
                */ 
-        popup.setContent(content+'<br>')
+        //popup.setContent(content+'<br>')
 
         layer.bindPopup(popup).openPopup();
 
@@ -65,7 +65,7 @@ campus_map.on('draw:created', function (e) {
 
 
 
-var temp = 'css/images/Capture.PNG', imageBounds = [[37.953699, -91.77432], [37.953398, -91.77390]]; // Math Building G
+var temp = 'css/images/Capture.PNG', imageBounds = [[37.95609, -91.77461], [37.95577, -91.77392]]; // cs Building G
 
 var temp_1 = L.imageOverlay(temp, imageBounds);
 
