@@ -13,10 +13,10 @@ $debug = false;
 if( $debug ) print_r($_GET);
 
 // Database Constants (to be relocated)
-define('DB_SERVER', "localhost");
-define('DB_USER', "mapuser");
-define('DB_PASS', "MinerMapper15!");
-define('DB_NAME', "campus_map");
+define("DB_SERVER", "localhost");
+define("DB_USER", "mapuser");
+define("DB_PASS", "MinerMapper15!");
+define("DB_NAME", "campus_map");
 
 // Set JSON MIME Type
 header("Content-type: application/json");
