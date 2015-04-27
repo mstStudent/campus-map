@@ -7,6 +7,10 @@
 	Makes use of newer PHP Data Objects (PDOs)
 */
 
+$debug = false;
+
+// http://127.0.0.1/dbHandler.php?function=getBuildingCoords&buildingName=Rolla+Building
+if( $debug ) print_r($_GET);
 
 // Database Constants (to be relocated)
 define("DB_SERVER", "localhost");
@@ -18,16 +22,15 @@ define("DB_NAME", "campus_map");
 header("Content-type: application/json");
 
 // Create PDO Data Source Name
-$dsn = 'mysql:host=' . DB_SERVER . ';dbname=' . DB_Name;
+$dsn = 'mysql:host=' . DB_SERVER . ';dbname=' . DB_NAME;
 
 // Create DB Connection
-try { $db = new PDO($dsn, $username, $password); }
+try { $db = new PDO($dsn, DB_USER, DB_PASS); }
 catch(PDOException $e) { die('DB Connection Failed:' . $e); }
 
 // For sanitizing input
 function cleanInput( $data ) {
 	$data = stripslashes($data);
-	$data = real_escape_string($data);
 	$data = htmlspecialchars($data);
 	return $data;
 }
@@ -37,6 +40,8 @@ function cleanInput( $data ) {
 
 // get BuildingID by Name
 function getBuildingID() {
+
+	global $db, $debug;
 
 	$query = 'SELECT id FROM buildings WHERE name = :buildingName';
 
@@ -51,12 +56,16 @@ function getBuildingID() {
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
+	if( $debug ) print( json_encode( $results ) );
+	
 	return json_encode( $results );
 }
 
 
 // get all coordinates for a building, by name
 function getBuildingCoords() {
+
+	global $db, $debug;
 
 	$query = 'SELECT latitude, longitude FROM coordinates WHERE buildingID IN '
 		. '( SELECT id FROM buildings WHERE name = :buildingName)';
@@ -72,6 +81,8 @@ function getBuildingCoords() {
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
+	if( $debug ) print( json_encode( $results ) );
+	
 	return json_encode( $results );
 }
 
@@ -82,11 +93,11 @@ function getBuildingCoords() {
 if( isset( $_GET['function'] ) ) {
 
 	$function = cleanInput( $_GET['function'] );
-
-    if( $function == 'getBuildingID' )
+	
+	if( $function == 'getBuildingID' )
 		return getBuildingID();
 		
-    elseif($function == 'getBuildingCoords')
+	elseif($function == 'getBuildingCoords')
 		return getBuildingCoords();
 		
 	//elseif...other query request
