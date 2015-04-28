@@ -1,0 +1,131 @@
+<?php require("./php/dbHandler.php"); ?>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="css/images/favicon.ico">
+
+    <title>Campus Map</title>
+
+      <link rel="stylesheet" href="css/bootstrap.min.css" />
+      <link rel="stylesheet" href="css/leaflet.css" />
+      <link rel="stylesheet" href="css/leaflet.draw.css" />
+      <link rel="stylesheet" href="css/app.css" />
+      <link rel="stylesheet" href="css/schedule.css" />
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!---<script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+        <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"> Missouri S&T Map</a>
+        </div>
+    
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.php">Buildings</a></li>
+            <li class="active">  <a href="schedule.html">Schedule</a></li>
+            <li><a href="#events">Events</a></li>
+            <li class="active">
+            <li><a href="about.html">About</a></li> </font>
+            </li>
+          </ul>
+          <!--
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">Default</a></li>
+            <li><a href="../navbar-static-top/">Static top</a></li>
+            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
+          </ul>
+          -->
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        
+        <h1>Search for your classes</h1>
+        <br>
+        <p>Enter your class name (Ex. CS5201), or filter by buildings and rooms</p>
+        <br>
+        
+ 
+        <table id="filters">
+         <tr>
+          <td><input></input></td>
+           <td>
+             <p>Buildings </p>
+            <div id="building_search">
+              <select>
+                
+              </select>
+            </div>
+            </td>
+             <td>      <p>   Rooms  </p>
+            <div id="room_search">
+              <select>
+                
+              </select>
+            </div>
+          </td>
+           </tr>
+        </table>
+
+        
+        
+      </div>
+
+    </div>
+    
+     <!-- Libraries used -->
+      <script src="js/jquery-2.1.1.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+
+	  <script>
+         
+         var phpFile = "php/dbHandler.php";
+         
+
+         $.get(phpFile, { function: "getAllBuildings" } , function(php_results){
+           var buildings = eval(php_results)
+           buildings.forEach(function (feature) {
+              var select = $("#building_search");
+              console.log("feature.name ", feature.name);
+             })
+         })
+         
+
+
+	  </script>
+
+      <!-- Scripts the team developed -->
+      
+      <script src="js/map.js"></script>
+      <script src="js/index.js"></script>
+  </body>
+</html>

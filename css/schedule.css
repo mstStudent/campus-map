@@ -1,0 +1,35 @@
+.jumbotron{
+  background-color: #dfc463;
+  height: 400px;
+  padding: 40px;
+}
+#search_bars{
+
+}
+
+#building_search{
+
+
+}
+
+#room_search{
+  float: center;
+} 
+
+#filters{
+
+
+
+}
+#filters td{
+  padding : 50px;
+}
+#query_searches{
+
+}
+#query_searches li{
+
+  list-style-type: none;
+   display: inline;
+   padding : 20px;
+}
