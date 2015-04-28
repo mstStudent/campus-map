@@ -7,9 +7,8 @@
 	Makes use of newer PHP Data Objects (PDOs)
 */
 
-$debug = false;
-
 // http://127.0.0.1/dbHandler.php?function=getBuildingCoords&buildingName=Rolla+Building
+$debug = false;
 if( $debug ) print_r($_GET);
 
 // Database Constants (to be relocated)
@@ -41,7 +40,7 @@ function cleanInput( $data ) {
 // get BuildingID by Name
 function getBuildingID() {
 
-	global $db, $debug;
+	global $db;
 
 	$query = 'SELECT id FROM buildings WHERE name = :buildingName';
 
@@ -55,8 +54,6 @@ function getBuildingID() {
 		$stmt->execute();
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
-	if( $debug ) print( json_encode( $results ) );
 	
 	return json_encode( $results );
 }
@@ -81,8 +78,6 @@ function getBuildingCoords() {
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	if( $debug ) print( json_encode( $results ) );
-	
 	return json_encode( $results );
 }
 
@@ -95,10 +90,10 @@ if( isset( $_GET['function'] ) ) {
 	$function = cleanInput( $_GET['function'] );
 	
 	if( $function == 'getBuildingID' )
-		return getBuildingID();
+		print getBuildingID();
 		
 	elseif($function == 'getBuildingCoords')
-		return getBuildingCoords();
+		print getBuildingCoords();
 		
 	//elseif...other query request
 }
