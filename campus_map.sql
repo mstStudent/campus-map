@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS `coordinates` (
   `outdoorFlag` tinyint(1) DEFAULT NULL,
   `buildingID` char(10) NOT NULL,
   `roomID` char(10) NOT NULL,
-  `latitude` float(15,15) NOT NULL,
-  `longitude` float(15,15) NOT NULL,
+  `latitude` float(20,20) NOT NULL,
+  `longitude` float(20,20) NOT NULL,
   `pointOrder` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
