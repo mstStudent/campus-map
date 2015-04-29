@@ -100,8 +100,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   `buildingID` char (10) NOT NULL, 
   `number` char(5) NOT NULL,
   `floor` smallint(6) DEFAULT NULL,
-  `seatCount` smallint(6) DEFAULT NULL,
-  `leafletID` smallint(6) DEFAULT NULL
+  `seatCount` smallint(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
