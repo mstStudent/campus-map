@@ -29,13 +29,14 @@ $.get(phpFile,
                   var latlng = eval(latLng);
                   building.latlng = latlng;
                   console.log("building ", building);
+                  /*
                   var indoorLayer = new L.Indoor(building, {
                       getLevel: function (data) {
                           return 0;
                       }
 
                   });
-
+                  */
 
               });
         })
