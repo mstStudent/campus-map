@@ -1,4 +1,4 @@
-﻿<?php require("./php/dbHandler.php"); ?>
+<?php require("./php/dbHandler.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +16,6 @@
       <link rel="stylesheet" href="css/leaflet.css" />
       <link rel="stylesheet" href="css/leaflet.draw.css" />
       <link rel="stylesheet" href="css/app.css" />
-      <link rel="stylesheet" href="css/schedule.css" />
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -31,7 +30,7 @@
 
   <body>
 
-        <!-- Fixed navbar -->
+    <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -47,58 +46,31 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="index.html">Buildings</a></li>
-            <li class="active">  <a href="schedule.html">Schedule</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li>
+            <li>  <a href="schedule.html">Schedule</a></li>
+            <li class="active" ><a href="#events">Events</a></li>
+            <li >
             <li><a href="about.html">About</a></li> </font>
             </li>
           </ul>
-          <!--
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Default</a></li>
-            <li><a href="../navbar-static-top/">Static top</a></li>
-            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>
-          </ul>
-          -->
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <div class="container">
 
-      <!-- Main component for a primary marketing message or call to action -->
+      <!-- Main component for a primary marketing message or call to action 
       <div class="jumbotron">
         
-        <h1>Search for your classes</h1>
-        <br>
-        <p>Enter your class name (Ex. CS5201), or filter by buildings and rooms</p>
-        <br>
-        
- 
-        <table id="filters">
-         <tr>
-          <td><input></input></td>
-           <td>
-             <p>Buildings </p>
-            <div id="building_search">
-              <select>
-                
-              </select>
-            </div>
-            </td>
-             <td>      <p>   Rooms  </p>
-            <div id="room_search">
-              <select>
-                
-              </select>
-            </div>
-          </td>
-           </tr>
-        </table>
+        <h1>Find Events on Campus</h1>
 
-        
-        
       </div>
+      
+      -->
+      <!--CALENDAR-->
+      
+      <iframe src="https://www.google.com/calendar/embed?title=Campus%20Map&amp;height=800&amp;wkst=1&amp;bgcolor=%23ffcc66&amp;src=mst.edu_eif0fkdt45f3lkmgramdrg16jc%40group.calendar.google.com&amp;color=%232952A3&amp;ctz=America%2FChicago" style=" border-width:0 " width="1000" height="800" frameborder="0" scrolling="no"></iframe>
+      
+      
 
     </div>
     
@@ -114,10 +86,7 @@
          $.get(phpFile, { function: "getAllBuildings" } , function(php_results){
            var buildings = eval(php_results)
            buildings.forEach(function (feature) {
-               $("#building_search select")
-                   .append($("<option></option>")
-                   .attr("value", feature.name)
-                   .text(feature.name));
+              var select = $("#building_search");
               console.log("feature.name ", feature.name);
              })
          })
@@ -125,5 +94,10 @@
 
 
 	  </script>
+
+      <!-- Scripts the team developed -->
+      
+      <script src="js/map.js"></script>
+      <script src="js/index.js"></script>
   </body>
 </html>

@@ -22,12 +22,12 @@ font-size: 50px;
 
 .jumbotron h1{
 font-size: 40px;
-padding: 0px;
+padding: 10px;
 margin: 0 auto;
 }
 
 .jumbotron p{
-  padding: 0px;
+  padding: 10px;
   margin: 0px;
 
 }
@@ -35,4 +35,11 @@ margin: 0 auto;
 #stPats{
   right: 30px;
   position: absolute;
+}
+
+
+.img featurette-image img-responsive center-block{
+
+  height: 200px;
+
 }
