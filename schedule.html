@@ -1,4 +1,4 @@
-<?php require("./php/dbHandler.php"); ?>
+﻿<?php require("./php/dbHandler.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -114,7 +114,10 @@
          $.get(phpFile, { function: "getAllBuildings" } , function(php_results){
            var buildings = eval(php_results)
            buildings.forEach(function (feature) {
-              var select = $("#building_search");
+               $("#building_search select")
+                   .append($("<option></option>")
+                   .attr("value", feature.name)
+                   .text(feature.name));
               console.log("feature.name ", feature.name);
              })
          })
@@ -122,10 +125,5 @@
 
 
 	  </script>
-
-      <!-- Scripts the team developed -->
-      
-      <script src="js/map.js"></script>
-      <script src="js/index.js"></script>
   </body>
 </html>

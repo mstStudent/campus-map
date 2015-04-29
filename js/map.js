@@ -42,9 +42,6 @@ $.get(phpFile,
         })
         //mapData.push(building);
 
-        console.log("try ", building);
-
-
     });
 
 //console.log(mapData);
@@ -104,19 +101,6 @@ $.getJSON(mapData, function (data) {
 
 
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
