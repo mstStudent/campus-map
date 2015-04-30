@@ -35,7 +35,9 @@ function cleanInput( $data ) {
 	return $data;
 }
 
+
 /* QUERY DEFINITIONS */
+
 // get BuildingID by Name
 function getBuildingID() {
 	global $db;
@@ -132,7 +134,9 @@ function getEvent() {
 	return json_encode( $results );
 }
 
+
 /* MAIN ENTRY LOGIC */
+
 // Determine which query to invoke
 if( isset( $_GET['function'] ) ) {
 	$function = cleanInput( $_GET['function'] );
@@ -151,6 +155,7 @@ if( isset( $_GET['function'] ) ) {
 		
 	elseif($function == 'getEvent')
 		print getEvent();
+
 	//elseif...other query request
 }
 
