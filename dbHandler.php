@@ -3,13 +3,13 @@
 /*
 	Developer: Lance Pendergrass
 	File: dbHandler.php
+	Version: 1.3.3
 	Desc: PHP mySQL database hanndler.
 	Makes use of newer PHP Data Objects (PDOs)
 */
 
-$debug = false;
-
 // http://127.0.0.1/dbHandler.php?function=getBuildingCoords&buildingName=Rolla+Building
+$debug = true;
 if( $debug ) print_r($_GET);
 
 // Database Constants (to be relocated)
@@ -40,13 +40,9 @@ function cleanInput( $data ) {
 
 // get BuildingID by Name
 function getBuildingID() {
-
-	global $db, $debug;
-
+	global $db;
 	$query = 'SELECT id FROM buildings WHERE name = :buildingName';
-
 	if( isSet( $_GET['buildingName'] ) ) {
-
 		$buildingName = cleanInput( $_GET['buildingName'] );
 	
 		$stmt = $db->prepare( $query );
@@ -55,23 +51,16 @@ function getBuildingID() {
 		$stmt->execute();
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
-	
-	if( $debug ) print( json_encode( $results ) );
 	
 	return json_encode( $results );
 }
 
-
 // get all coordinates for a building, by name
 function getBuildingCoords() {
-
-	global $db, $debug;
-
+	global $db;
 	$query = 'SELECT latitude, longitude FROM coordinates WHERE buildingID IN '
 		. '( SELECT id FROM buildings WHERE name = :buildingName)';
-
 	if( isSet( $_GET['buildingName'] ) ) {
-
 		$buildingName = cleanInput( $_GET['buildingName'] );
 	
 		$stmt = $db->prepare( $query );
@@ -81,7 +70,66 @@ function getBuildingCoords() {
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	
-	if( $debug ) print( json_encode( $results ) );
+	return json_encode( $results );
+}
+
+// get roomID by room name
+function getRoomID() {
+	global $db;
+	
+	$query = 'SELECT rooms.ID FROM rooms, buildings WHERE '
+	. 'rooms.buildingID = buildings.ID AND buildings.name = '
+	. ':buildingName AND rooms.number = :roomNumber';
+	
+	if( isSet( $_GET['buildingName'] ) and isSet( $_GET['roomNumber'] ) ) {
+		$buildingName = cleanInput( $_GET['buildingName'] );
+		$roomNumber = cleanInput( $_GET['roomNumber'] );
+		
+		$stmt = $db->prepare( $query );
+		$stmt->bindParam(':buildingName', $buildingName, PDO::PARAM_STR);
+		$stmt->bindParam(':roomNumber', $roomNumber, PDO::PARAM_STR);
+		
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	return json_encode( $results );
+}
+
+// get all events associated with room ID
+function getRoomEvents() {
+	global $db;
+	
+	$query = 'SELECT * FROM events WHERE room = :roomID';
+	
+	if( isSet( $_GET['roomID'] ) ) {
+		$roomID = cleanInput( $_GET['roomID'] );
+		
+		$stmt = $db->prepare( $query );
+		$stmt->bindParam(':roomID', $roomID, PDO::PARAM_STR);
+		
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+	return json_encode( $results );
+}
+
+// get event by name
+function getEvent() {
+	global $db;
+	
+	$query = 'SELECT * FROM events WHERE name LIKE :eventName';
+	
+	if( isSet( $_GET['eventName'] ) ) {
+		$eventName = cleanInput( $_GET['eventName'] );
+		
+		$stmt = $db->prepare( $query );
+		$stmt->bindParam(':eventName', $eventName, PDO::PARAM_STR);
+		
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
 	
 	return json_encode( $results );
 }
@@ -91,18 +139,25 @@ function getBuildingCoords() {
 
 // Determine which query to invoke
 if( isset( $_GET['function'] ) ) {
-
 	$function = cleanInput( $_GET['function'] );
 	
 	if( $function == 'getBuildingID' )
-		return getBuildingID();
+		print getBuildingID();
 		
 	elseif($function == 'getBuildingCoords')
-		return getBuildingCoords();
+		print getBuildingCoords();
+	
+	elseif($function == 'getRoomID')
+		print getRoomID();
 		
+	elseif($function == 'getRoomEvents')
+		print getRoomEvents();
+		
+	elseif($function == 'getEvent')
+		print getEvent();
+
 	//elseif...other query request
 }
-
 
 // Close DB Connection
 $db = null;
