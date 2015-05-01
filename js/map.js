@@ -22,55 +22,42 @@ $.get(phpFile,
     { function: "getAllBuildings" }, function (php_results) {
         var buildings = eval(php_results)
         buildings.forEach(function (feature) {
-            building.name = feature.name;
             console.log("feature.name", feature.name);
             $.get(phpFile,
               { function: "getBuildingCoords", buildingName: feature.name }, function (latLng) {
                   var latlng = eval(latLng);
-                  building.latlng = latlng;
-                  console.log("building ", building);
-                  /*
-                  var indoorLayer = new L.Indoor(building, {
-                      getLevel: function (data) {
-                          return 0;
-                      }
-
-                  });
-                  */
+                  mapData.push( 
+                    {geometry: {
+                       coordinates: [latlng],
+                       type: "Polygon"
+                      },
+                      id: feature.name,
+                      properties: {
+                        color: "grey",
+                        level: 0
+                      },
+                      type: "Feature"                  
+                    })
 
               });
         })
-        //mapData.push(building);
-
     });
 
-//console.log(mapData);
-
+console.log(mapData);
 
 mapData.forEach(function (data) {
     console.log("result: ", data);
 })
 /*
-$.getJSON(mapData, function (data) {
-    
-    var indoorLayer = new L.Indoor(geoJSON, {
+var indoorLayer = new L.Indoor(mapData, {
         getLevel: function (feature) {
-            if (feature.properties.relations.length === 0)
-                return null;
-
-            return feature.properties.relations[0].reltags.level;
-        },
+		return feature.properties.level;
+	},
         onEachFeature: function (feature, layer) {
             layer.bindPopup(JSON.stringify(feature.properties, null, 4));
         },
         style: function (feature) {
-            var fill = 'white';
-
-            if (feature.properties.tags.buildingpart === 'corridor') {
-                fill = '#169EC6';
-            } else if (feature.properties.tags.buildingpart === 'verticalpassage') {
-                fill = '#0A485B';
-            }
+            var fill = feature.properties.color;
 
             return {
                 fillColor: fill,
