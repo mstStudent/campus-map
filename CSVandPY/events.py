@@ -1,20 +1,29 @@
 ##Jacob Curtis
-##4-23-15
-##Creates the csv that will populate the building table for
+##4-29-15
+##Creates the csv that will populate the events table for
 ##the database for MinerMap
 
 
-def getBuildingInfo():
-    buildingName = raw_input("Building name: ")
-    buildingID = raw_input("Building ID: ")
-    floorCount = raw_input("How many Floors: ")
-    defFloor = raw_input("Default Floor: ")
+def getEventInfo():
 
-    buildingInfo = []
-    buildingInfo.append([buildingID, buildingName, floorCount, defFloor])
-##    print buildingInfo
+    eventID = raw_input("Event ID: ")
+    eventName = raw_input("Event Name: ")
+    startDate = raw_input("Start Date:\n<yyyy-mm-dd>: ")
+    endDate = raw_input("End Date:\n<yyyy-mm-dd>: ")
+    startTime = raw_input("Start Time <24 hour>:\nhh:mm ")
+    startTime = startTime + ":00"
+    endTime = raw_input("End Time <24 hour>:\nhh:mm ")
+    endTime = endTime + ":00"
+    section = raw_input("Section <0 if NA>: ")
+    instructor = raw_input("Instructor: ")
+    roomID = raw_input("RoomID: ")
+    days = raw_input("Day code: ")
 
-    return buildingInfo
+    eventInfo = []
+    eventInfo.append([eventID,eventName,startDate,endDate,startTime,endTime,section,instructor,roomID,days])
+
+
+    return eventInfo
 
 
 def updateFile(fileName,writeList):
@@ -58,12 +67,12 @@ def formatFile(fileName):
 
 def main():
 
-    fileName = raw_input("Building file name: ")
+    fileName = raw_input("Event file name: ")
     
     while(True):
         
-        buildingInfo = getBuildingInfo()
-        updateFile(fileName, buildingInfo)
+        eventInfo = getEventInfo()
+        updateFile(fileName, eventInfo)
 
         again = raw_input("Exit <y>: ")
         if(again == 'y' ):
