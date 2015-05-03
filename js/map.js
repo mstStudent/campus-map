@@ -18,81 +18,79 @@ var phpFile = "php/dbHandler.php";
 
 // lazier way to do ajax get
 // the ajax will return a string, which is useless to us so eval just evaluates what the hell the string actually is (i.e. it makes an object)
-$.get(phpFile,
-    { function: "getAllBuildings" }, function (php_results) {
-        var buildings = eval(php_results)
+$.get(phpFile, { function: "getBuildingCoords" }, function (php_results) {
+        var buildings = eval(php_results);
+        mapData.push(buildings);
+        console.log(buildings);
+    });
+        /*
         buildings.forEach(function (feature) {
             console.log("feature.name", feature.name);
             $.get(phpFile,
               { function: "getBuildingCoords", buildingName: feature.name }, function (latLng) {
                   var latlng = eval(latLng);
-                  mapData.push( 
-                    {geometry: {
-                       coordinates: [latlng],
-                       type: "Polygon"
-                      },
-                      id: feature.name,
-                      properties: {
-                        color: "grey",
-                        level: 0
-                      },
-                      type: "Feature"                  
-                    })
-
+                  mapData.push(
+                    {
+                        geometry: {
+                            coordinates: [latlng],
+                            type: "Polygon"
+                        },
+                        id: feature.name,
+                        properties: {
+                            color: "grey",
+                            level: 0
+                        },
+                        type: "Feature"
+                    });
+                  console.log(mapData);
+                 
               });
-        })
-    });
+        });
 
-console.log(mapData);
+        var indoorLayer = new L.Indoor(mapData, {
+            getLevel: function (feature) {
+                return feature.properties.level;
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup(JSON.stringify(feature.properties, null, 4));
+            },
+            style: function (feature) {
+                var fill = feature.properties.color;
+
+                return {
+                    fillColor: fill,
+                    weight: 1,
+                    color: '#666',
+                    fillOpacity: 1
+                };
+            }
+        });
+
+        indoorLayer.setLevel("0");
+
+        indoorLayer.addTo(campus_map);
+
+        var levelControl = new L.Control.Level({
+            level: "0",
+            levels: indoorLayer.getLevels()
+        });
+
+        // Connect the level control to the indoor layer
+        levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
+
+        levelControl.addTo(campus_map);
 
 mapData.forEach(function (data) {
     console.log("result: ", data);
 })
-/*
-var indoorLayer = new L.Indoor(mapData, {
-        getLevel: function (feature) {
-		return feature.properties.level;
-	},
-        onEachFeature: function (feature, layer) {
-            layer.bindPopup(JSON.stringify(feature.properties, null, 4));
-        },
-        style: function (feature) {
-            var fill = feature.properties.color;
+        */
 
-            return {
-                fillColor: fill,
-                weight: 1,
-                color: '#666',
-                fillOpacity: 1
-            };
-        }
-    });
 
-    indoorLayer.setLevel("0");
 
-    indoorLayer.addTo(map);
 
-    var levelControl = new L.Control.Level({
-        level: "0",
-        levels: indoorLayer.getLevels()
-    });
 
-    // Connect the level control to the indoor layer
-    levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
 
-    levelControl.addTo(map);
     
-
-    console.log("try ", data);
-});
-
-
-*/
-
-
-
-
-
 
 // Initialise the FeatureGroup to store editable layers
 var drawnItems = new L.FeatureGroup();
