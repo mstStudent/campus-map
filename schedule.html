@@ -82,7 +82,7 @@
              <p>Buildings </p>
             <div id="building_search">
               <select>
-                
+                <option selected='true'></option>
               </select>
             </div>
             </td>
@@ -92,12 +92,14 @@
                 
               </select>
             </div>
+            <button id="startSearch">Search</button>
+            
           </td>
            </tr>
         </table>
 
-        
-        
+        <div id="dataIsHere">
+        </div>
       </div>
 
     </div>
@@ -118,12 +120,38 @@
                    .append($("<option></option>")
                    .attr("value", feature.name)
                    .text(feature.name));
-              console.log("feature.name ", feature.name);
+              //console.log("feature.name ", feature.name);
              })
          })
          
-
-
+         $("#building_search").change(function(){  
+          $.get(phpFile, { function: "getRoomIDs", buildingName: $("#building_search option:selected").text() } , function(php_results){
+           var buildings = eval(php_results)
+           $("#room_search select").empty();
+           buildings.forEach(function (feature) {
+               $("#room_search select")
+                   .append($("<option></option>")
+                   .attr("value", feature.ID)
+                   .text(feature.ID));
+              //console.log("feature.ID ", feature.ID);
+             })
+         })
+         })
+         
+         console.log($("#room_search option:selected").text())
+         
+         $("#startSearch").click(function(){
+           $.get(phpFile, { function: "getRoomEvents", roomID: $("#room_search option:selected").text() } , function(php_results){
+              var result = eval(php_results)
+              result.forEach(function (feature) {
+                 //feature.forEach
+                   $("#dataIsHere").append($("<p></p>")
+                    .text( feature.ID + ' ' + feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' + feature.name + ' ' + feature.roomID + ' ' + feature.section));
+                    //.ID + ' ' feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' feature.name + ' ' + feature.roomID + ' ' feature.section));
+              })
+            })
+         })
+         
 	  </script>
   </body>
 </html>
