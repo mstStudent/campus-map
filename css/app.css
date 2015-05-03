@@ -9,6 +9,19 @@ body {
 background-color: #146210;
 /*background-color: #dfc463; 
 background-color: #dfd5b3;  #dfc463  #146210  #458f40*/
+
+}
+
+.navbar-header a
+{
+  color: white;
+}
+
+#navbar-brand a
+{
+  color: white;
+}
+.titlething a{
 color: white;
 }
 
