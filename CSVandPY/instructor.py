@@ -1,20 +1,22 @@
 ##Jacob Curtis
 ##4-23-15
-##Creates the csv that will populate the building table for
+##Creates the csv that will populate the instructor table for
 ##the database for MinerMap
 
 
-def getBuildingInfo():
-    buildingName = raw_input("Building name: ")
-    buildingID = raw_input("Building ID: ")
-    floorCount = raw_input("How many Floors: ")
-    defFloor = raw_input("Default Floor: ")
+def getInstructorInfo():
+    first = raw_input("First name: ")
+    last = raw_input("Last Name: ")
+    dept = raw_input("Department: ")
+    office = raw_input("Office: ")
+    email = raw_input("Email: ")
+    phoneNum = raw_input("Phone Number: ")
 
-    buildingInfo = []
-    buildingInfo.append([buildingID, buildingName, floorCount, defFloor])
-##    print buildingInfo
+    instructorInfo = []
+    instructorInfo.append([first, last, dept, office, email, phoneNum])
 
-    return buildingInfo
+
+    return instructorInfo
 
 
 def updateFile(fileName,writeList):
@@ -58,12 +60,12 @@ def formatFile(fileName):
 
 def main():
 
-    fileName = raw_input("Building file name: ")
+    fileName = raw_input("Instructor file name: ")
     
     while(True):
         
-        buildingInfo = getBuildingInfo()
-        updateFile(fileName, buildingInfo)
+        instructorInfo = getInstructorInfo()
+        updateFile(fileName, instructorInfo)
 
         again = raw_input("Exit <y>: ")
         if(again == 'y' ):
