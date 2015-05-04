@@ -10,6 +10,11 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE DATABASE IF NOT EXISTS `campus_map`;
+use `campus_map`;
+
+GRANT ALL ON `campus_map`.* to 'mapuser'@'localhost' identified by 'MinerMapper15!';
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
