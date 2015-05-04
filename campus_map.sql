@@ -3,18 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2015 at 08:15 PM
+-- Generation Time: May 04, 2015 at 12:23 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.5.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-CREATE DATABASE IF NOT EXISTS `campus_map`;
-use `campus_map`;
-
-GRANT ALL ON `campus_map`.* to 'mapuser'@'localhost' identified by 'MinerMapper15!';
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -356,8 +350,19 @@ CREATE TABLE IF NOT EXISTS `events` (
   `section` char(1) DEFAULT NULL,
   `instructor` char(30) NOT NULL,
   `roomID` char(10) NOT NULL,
-  `days` binary(7) DEFAULT NULL
+  `days` char(7) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`ID`, `name`, `startDate`, `endDate`, `startTime`, `endTime`, `section`, `instructor`, `roomID`, `days`) VALUES
+('acm1', ' ACM Meeting', '2015-01-20', '2015-05-15', '17:00:00', '18:00:00', '', ' ercal@mst.edu', ' rG3', ' 000001'),
+('advising1', ' Advising Week', '2015-03-23', '2015-03-27', '08:00:00', '15:00:00', '', ' price@mst.edu', ' rG1', ' 111110'),
+('CS3500', 'Programming Languages', '2015-01-20', '2015-05-15', '14:00:00', '15:15:00', 'a', ' ricardom@mst.edu', 'cs104', '0101000'),
+('cs4900', ' Senior Design', '2015-01-20', '2015-05-15', '15:30:00', '16:45:00', 'a', ' ricardom@mst.edu', ' cs104', ' 010100'),
+('wacm1', ' WACM Meeting', '2015-01-20', '2015-05-15', '12:00:00', '13:00:00', '', ' leopold@mst.edu', ' cs110', ' 000001');
 
 -- --------------------------------------------------------
 
@@ -369,10 +374,21 @@ CREATE TABLE IF NOT EXISTS `instructors` (
   `fName` char(30) DEFAULT NULL,
   `lName` char(30) DEFAULT NULL,
   `dept` char(30) DEFAULT NULL,
-  `office` char(5) DEFAULT NULL,
+  `office` char(10) DEFAULT NULL,
   `email` char(20) NOT NULL DEFAULT '',
   `phone` char(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `instructors`
+--
+
+INSERT INTO `instructors` (`fName`, `lName`, `dept`, `office`, `email`, `phone`) VALUES
+('Dan', ' Lin', ' Computer Science', ' cs102', ' dlin@mst.edu', ' 123456789'),
+('Fikret', ' Ercal', ' Computer Science', ' cs101', ' ercal@mst.edu', ' 123456789'),
+('Jennifer', ' Leopold', ' Computer Science', ' cs102', ' leopold@mst.edu', ' 123456789'),
+('Clayton', ' Price', ' Computer Science', ' cs100', ' price@mst.edu', ' 123456789'),
+('Ricardo', ' Morales', ' Computer Science', ' cs100', ' ricardom@mst.edu', ' 123456789');
 
 -- --------------------------------------------------------
 
@@ -495,7 +511,6 @@ ADD CONSTRAINT `coordinates_ibfk_2` FOREIGN KEY (`roomID`) REFERENCES `rooms` (`
 -- Constraints for table `events`
 --
 ALTER TABLE `events`
-ADD CONSTRAINT `event_1` FOREIGN KEY (`roomID`) REFERENCES `rooms` (`ID`),
 ADD CONSTRAINT `event_2` FOREIGN KEY (`instructor`) REFERENCES `instructors` (`email`);
 
 --
