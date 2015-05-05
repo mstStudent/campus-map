@@ -1,4 +1,4 @@
-﻿<?php require("./php/dbHandler.php"); ?>
+<?php require("./php/dbHandler.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,16 +41,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"> Missouri S&T Map</a>
+          <a class="navbar-brand" href="#" style = "color: white;"> Missouri S&T Map</a>
         </div>
     
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.html">Buildings</a></li>
+            <li><a href="index.html" style = "color: white;">Buildings</a></li>
             <li class="active">  <a href="schedule.html">Schedule</a></li>
-            <li><a href="events.html">Events</a></li>
+            <li><a href="events.html" style = "color: white;">Events</a></li>
             <li>
-            <li><a href="about.html">About</a></li> </font>
+            <li><a href="about.html" style = "color: white;">About</a></li> </font>
             </li>
           </ul>
           <!--
@@ -74,32 +74,54 @@
         <p>Enter your class name (Ex. CS5201), or filter by buildings and rooms</p>
         <br>
         
- 
-        <table id="filters">
-         <tr>
-          <td><input></input></td>
-           <td>
-             <p>Buildings </p>
-            <div id="building_search">
+        
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Search by Class Number</th>
+        <th>Buildings</th>
+        <th>Rooms</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="form-group">
+            <input class="form-control" id="focusedInput" type="text" placeholder = "Ex. Senior Design">
+          </div>
+        </td>
+        <td>
+        
+             <div id="building_search">
               <select>
-                
+                <option selected='true'></option>
               </select>
             </div>
-            </td>
-             <td>      <p>   Rooms  </p>
-            <div id="room_search">
-              <select>
-                
-              </select>
-            </div>
-          </td>
-           </tr>
-        </table>
-
         
         
+        </td>
+        <td>            
+        <div id="room_search">
+          <select>
+            
+          </select>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+    <button id="startSearch" type="button" class="btn btn-default">Search</button>
+    
+   </div>
+   
+  <!-- Main component for a primary marketing message or call to action -->
+      <div id = "schedule-results" class="jumbotron">
+        
+        <div id="dataIsHere">
+        </div>
+     
       </div>
-
     </div>
     
      <!-- Libraries used -->
@@ -108,9 +130,9 @@
 
 	  <script>
          
+         
          var phpFile = "php/dbHandler.php";
          
-
          $.get(phpFile, { function: "getAllBuildings" } , function(php_results){
            var buildings = eval(php_results)
            buildings.forEach(function (feature) {
@@ -118,12 +140,63 @@
                    .append($("<option></option>")
                    .attr("value", feature.name)
                    .text(feature.name));
-              console.log("feature.name ", feature.name);
+              //console.log("feature.name ", feature.name);
              })
          })
          
-
-
+         $("#building_search").change(function(){  
+          $.get(phpFile, { function: "getRoomIDs", buildingName: $("#building_search option:selected").text() } , function(php_results){
+           var buildings = eval(php_results)
+           $("#room_search select").empty();
+           buildings.forEach(function (feature) {
+               $("#room_search select")
+                   .append($("<option></option>")
+                   .attr("value", feature.ID)
+                   .text(feature.ID));
+              //console.log("feature.ID ", feature.ID);
+             })
+         })
+         })
+         
+         
+         
+         $("#startSearch").click(function(){
+         console.log($("#room_search option:selected").text());
+         //console.log($("#focusedInput").val());
+         
+         if($("#focusedInput").val() != "")
+         {
+         console.log($("#focusedInput").val());
+         $.get(phpFile, { function: "getNamedEvents", eventName: $("#focusedInput").val() } , function(php_results){                 
+                 var events = eval(php_results)
+                 $("#dataIsHere").empty();
+                 events.forEach(function (feature)
+                 {
+                    //window.alert('halp');
+                    console.log($("#focusedInput").val());
+                    $("#dataIsHere").append($("<p></p>")
+                    .text( feature.ID + ' ' + feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' + feature.roomID + ' Section: ' + feature.section));
+                    //window.alert("FISHYYYYY!!! WHY ARE YOU SLEEPING!")
+                 })
+               })
+         
+         }
+         else
+         {
+           $.get(phpFile, { function: "getRoomEvents", roomID: $("#room_search option:selected").text() } , function(php_results){
+              var result = eval(php_results)
+              $("#dataIsHere").empty();
+              result.forEach(function (feature) {
+                 //feature.forEach
+                   $("#dataIsHere").append($("<p></p>")
+                    .text( feature.ID + ' ' + feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' + feature.roomID + ' ' + feature.section));
+                    //.ID + ' ' feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' feature.name + ' ' + feature.roomID + ' ' feature.section));
+              })
+            })
+            
+            }
+         })
+         
 	  </script>
   </body>
 </html>

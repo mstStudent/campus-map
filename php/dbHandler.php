@@ -9,7 +9,6 @@
 */
 
 // http://127.0.0.1/dbHandler.php?function=getBuildingCoords&buildingName=Rolla+Building
-
 $debug = false;
 if( $debug ) print_r($_GET);
 
@@ -35,28 +34,42 @@ function cleanInput( $data ) {
 	$data = htmlspecialchars($data);
 	return $data;
 }
-
-
 /* QUERY DEFINITIONS */
+
+function getAllBuildings(){
+  global $db, $debug;
+	$query = 'SELECT name FROM buildings';
+  
+  $stmt = $db->prepare( $query );
+  $stmt->execute();
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+ 	return json_encode( $result );
+}
 
 // get BuildingID by Name
 function getBuildingID() {
 	global $db;
-	$query = 'SELECT id FROM buildings WHERE name = :buildingName';
+	$query = 'SELECT ID FROM buildings WHERE name = :buildingName'; 
+  //:buildingName';
+
 	if( isSet( $_GET['buildingName'] ) ) {
-		$buildingName = cleanInput( $_GET['buildingName'] );
+   /* $query .= $_GET['buildingName'];
+    $query .= '\'';
+    echo $query;*/
+     $buildingName = cleanInput( $_GET['buildingName'] );
 	
 		$stmt = $db->prepare( $query );
 		$stmt->bindParam(':buildingName', $buildingName, PDO::PARAM_STR);
 	
 		$stmt->execute();
+
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+ 
 	}
-	
-	return json_encode( $results );
+	return  $results;
 }
 
-function getAllBuildings(){
+function getEveryBuilding(){
   global $db;
 
   $query_building = 'SELECT ID, name FROM buildings';
@@ -83,7 +96,7 @@ function getLevel($roomNum){
 // get all coordinates for a building, by name
 function getBuildingCoords() {
   global $db;
-	$buildings = getAllBuildings();
+	$buildings = getEveryBuilding();
   
   $buildArray = [];  
     
@@ -143,6 +156,26 @@ function getBuildingCoords() {
   
 }
 
+function getRoomIDs() {
+	global $db;
+	
+ // $bID = getBuildingID();
+
+  $query = 'SELECT rooms.ID FROM rooms join buildings on rooms.buildingID = buildings.ID where buildings.name = :bName';
+	//$query = 'SELECT rooms.ID FROM rooms WHERE rooms.buildingID = :bID';
+	
+	if( isSet( $_GET['buildingName'] ) ) {
+ 		$buildingName = cleanInput( $_GET['buildingName'] );
+
+  	$stmt = $db->prepare( $query );
+		$stmt->bindParam(':bName', $buildingName, PDO::PARAM_STR);
+		
+	  $stmt->execute();
+	  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	return json_encode( $results );
+}
+
 // get roomID by room name
 function getRoomID() {
 	global $db;
@@ -170,18 +203,37 @@ function getRoomID() {
 function getRoomEvents() {
 	global $db;
 	
-	$query = 'SELECT * FROM events WHERE room = :roomID';
+	$query = 'SELECT * FROM events WHERE roomID = :roomID';
 	
 	if( isSet( $_GET['roomID'] ) ) {
 		$roomID = cleanInput( $_GET['roomID'] );
-		
+
 		$stmt = $db->prepare( $query );
 		$stmt->bindParam(':roomID', $roomID, PDO::PARAM_STR);
 		
 		$stmt->execute();
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+	//var_dump($results);
+	return json_encode( $results );
+}
+
+// get all events by name
+function getNamedEvents() {
+	global $db;
 	
+	$query = 'SELECT * FROM events WHERE name LIKE :eventName';
+	
+	if( isSet( $_GET['eventName'] ) ) {
+		$eventName = cleanInput( $_GET['eventName'] );
+
+		$stmt = $db->prepare( $query );
+		$stmt->bindParam(':eventName', $eventName, PDO::PARAM_STR);
+		
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	//var_dump($results);
 	return json_encode( $results );
 }
 
@@ -216,15 +268,24 @@ if( isset( $_GET['function'] ) ) {
 		
 	elseif($function == 'getBuildingCoords')
 		print getBuildingCoords();
-    
+	
 	elseif($function == 'getRoomID')
 		print getRoomID();
 		
 	elseif($function == 'getRoomEvents')
 		print getRoomEvents();
 		
+  elseif($function == 'getRoomIDs')
+    print getRoomIDs();
+  
 	elseif($function == 'getEvent')
 		print getEvent();
+    
+  elseif($function == 'getAllBuildings')
+    print getAllBuildings();
+    
+  elseif($function == 'getNamedEvents')
+    print getNamedEvents();
 
 	//elseif...other query request
 }

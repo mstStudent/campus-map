@@ -1,7 +1,7 @@
 .jumbotron{
   background-color: #dfc463;
-  height: 400px;
-  padding: 40px;
+  height: 420px;
+  padding: 10px;
 }
 #search_bars{
 
@@ -9,6 +9,19 @@
 
 #building_search{
 
+
+}
+
+#startSearch{
+  margin: 0px;
+
+}
+#schedule-results
+{
+  background-color: white;
+  border-radius: 5px ;
+  border: 2px solid #dfc463;
+  
 
 }
 
