@@ -167,6 +167,25 @@ function getRoomEvents() {
 	return json_encode( $results );
 }
 
+// get all events by name
+function getNamedEvents() {
+	global $db;
+	
+	$query = 'SELECT * FROM events WHERE name LIKE :eventName';
+	
+	if( isSet( $_GET['eventName'] ) ) {
+		$eventName = cleanInput( $_GET['eventName'] );
+
+		$stmt = $db->prepare( $query );
+		$stmt->bindParam(':eventName', $eventName, PDO::PARAM_STR);
+		
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	//var_dump($results);
+	return json_encode( $results );
+}
+
 // get event by name
 function getEvent() {
 	global $db;
@@ -213,6 +232,9 @@ if( isset( $_GET['function'] ) ) {
     
   elseif($function == 'getAllBuildings')
     print getAllBuildings();
+    
+  elseif($function == 'getNamedEvents')
+    print getNamedEvents();
 
 	//elseif...other query request
 }

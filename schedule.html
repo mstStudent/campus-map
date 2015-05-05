@@ -87,7 +87,7 @@
       <tr>
         <td>
           <div class="form-group">
-            <input class="form-control" id="focusedInput" type="text" placeholder = "Ex. CS5200">
+            <input class="form-control" id="focusedInput" type="text" placeholder = "Ex. Senior Design">
           </div>
         </td>
         <td>
@@ -130,6 +130,7 @@
 
 	  <script>
          
+         
          var phpFile = "php/dbHandler.php";
          
          $.get(phpFile, { function: "getAllBuildings" } , function(php_results){
@@ -157,19 +158,43 @@
          })
          })
          
-         console.log($("#room_search option:selected").text())
+         
          
          $("#startSearch").click(function(){
+         console.log($("#room_search option:selected").text());
+         //console.log($("#focusedInput").val());
+         
+         if($("#focusedInput").val() != "")
+         {
+         console.log($("#focusedInput").val());
+         $.get(phpFile, { function: "getNamedEvents", eventName: $("#focusedInput").val() } , function(php_results){                 
+                 var events = eval(php_results)
+                 $("#dataIsHere").empty();
+                 events.forEach(function (feature)
+                 {
+                    //window.alert('halp');
+                    console.log($("#focusedInput").val());
+                    $("#dataIsHere").append($("<p></p>")
+                    .text( feature.ID + ' ' + feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' + feature.roomID + ' Section: ' + feature.section));
+                    //window.alert("FISHYYYYY!!! WHY ARE YOU SLEEPING!")
+                 })
+               })
+         
+         }
+         else
+         {
            $.get(phpFile, { function: "getRoomEvents", roomID: $("#room_search option:selected").text() } , function(php_results){
               var result = eval(php_results)
               $("#dataIsHere").empty();
               result.forEach(function (feature) {
                  //feature.forEach
                    $("#dataIsHere").append($("<p></p>")
-                    .text( feature.ID + ' ' + feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' + feature.name + ' ' + feature.roomID + ' ' + feature.section));
+                    .text( feature.ID + ' ' + feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' + feature.roomID + ' ' + feature.section));
                     //.ID + ' ' feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' feature.name + ' ' + feature.roomID + ' ' feature.section));
               })
             })
+            
+            }
          })
          
 	  </script>
