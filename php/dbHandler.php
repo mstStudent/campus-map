@@ -9,7 +9,8 @@
 */
 
 // http://127.0.0.1/dbHandler.php?function=getBuildingCoords&buildingName=Rolla+Building
-$debug = true;
+
+$debug = false;
 if( $debug ) print_r($_GET);
 
 // Database Constants (to be relocated)
@@ -66,19 +67,18 @@ function getAllBuildings(){
   return $buildings_results;
 }
 
-
-/*
-                        geometry: {
-                            coordinates: [latlng],
-                            type: "Polygon"
-                        },
-                        id: feature.name,
-                        properties: {
-                            color: "grey",
-                            level: 0
-                        },
-                        type: "Feature"
-*/
+function getLevel($roomNum){
+  global $db;
+	$query = 'SELECT floor FROM rooms WHERE ID = :roomID';
+	
+	$stmt = $db->prepare( $query );
+	$stmt->bindParam(':roomID', $roomNum, PDO::PARAM_STR);
+	
+	$stmt->execute();
+	$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	return  $results;
+}
 
 // get all coordinates for a building, by name
 function getBuildingCoords() {
@@ -89,8 +89,7 @@ function getBuildingCoords() {
     
    foreach ($buildings as $building){
      $object = new stdClass();
-     $object->bname = $building['name'];
-     $object->rooms = [];
+     $object->features = [];
      $queryAllRoomsInBuilding = 'SELECT roomID FROM coordinates WHERE buildingID = \''; //:bname';
      //var_dump($queryAllRoomsInBuilding);
      $queryAllRoomsInBuilding .= (string)$building['ID'];
@@ -103,58 +102,45 @@ function getBuildingCoords() {
      
      //var_dump($roomResults);
      foreach ($roomResults as $room){
-       $rooms = new stdClass();
-       $rooms->roomName = $room['roomID'];
+       $features = new stdClass();
+       $features->geometry = new stdClass();
+   
+       $features->properties = new stdClass();
+       $features->properties->color = "white";
+       $features->properties->level = getLevel($room['roomID'])[0]['floor'];
+       $features->properties->bname = $building['name'];
+
+       $features->type = "Feature";
+
+       $features->id = $room['roomID'];
        
-       $query_latlng = 'SELECT latitude, longitude, pointOrder FROM coordinates WHERE roomID = \'';
+       $query_latlng = 'SELECT longitude as \'0\', latitude as \'1\' FROM coordinates WHERE roomID = \'';
        $query_latlng .= (string)$room['roomID'];
        $query_latlng .= '\' Group by roomID, pointOrder';
        
        $latlng = $db->prepare( $query_latlng );
        $latlng->execute();
        $latlng_results = $latlng->fetchAll(PDO::FETCH_ASSOC);
+       $features->geometry->type = "Polygon";
+       $features->geometry->coordinates = [];
        
-       $rooms->coordinates = $latlng_results;
+       foreach ($latlng_results as $key => $var) {
+          $array[$key] = (int)$var;
+       }
        
-       $myArray[] = $rooms;
+       array_push($features->geometry->coordinates,$latlng_results);
        
-       array_push($object->rooms,$rooms);
+       $myArray[] = $features;
+       
+       array_push($object->features,$features);
      }
+     $temp = [];
      
-     //$object->roomlist = $roomResults;
-    // 
-
-
-    array_push($buildArray,$object);
+     array_push($buildArray,$object);
    }
-   foreach ($buildArray as $element){
-     var_dump($element);
-     print_r (json_encode($element));
-   }
- // print $object->property;
-  //}else{echo mysql_error();}
+
+ return json_encode( $buildArray, JSON_NUMERIC_CHECK );
   
-  /*
-  if($buildings->execute()){
-      while($row = mysqli_fetch_array($buildings->execute())) {
-        echo $row;
-      }
-  }else{echo mysql_error();}
-  
-  /*
-  
-	
-  $stmt = $db->prepare( $query );
-	//$stmt->bindParam(':buildingName', $buildingName, PDO::PARAM_STR);
-	
-	$stmt->execute();
-	$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	
-	array_multisort($results);
-	//return json_encode( $results );
-  print json_encode( $results );
-  
-  */
 }
 
 // get roomID by room name
@@ -229,8 +215,8 @@ if( isset( $_GET['function'] ) ) {
 		print getBuildingID();
 		
 	elseif($function == 'getBuildingCoords')
-		//print 
-	  getBuildingCoords();
+		print getBuildingCoords();
+    
 	elseif($function == 'getRoomID')
 		print getRoomID();
 		

@@ -19,72 +19,49 @@ var phpFile = "php/dbHandler.php";
 // lazier way to do ajax get
 // the ajax will return a string, which is useless to us so eval just evaluates what the hell the string actually is (i.e. it makes an object)
 $.get(phpFile, { function: "getBuildingCoords" }, function (php_results) {
-        var buildings = eval(php_results);
-        mapData.push(buildings);
-        console.log(buildings);
+    var results = eval(php_results);
+    var tempList = [];
+    results.forEach(function (res) {
+        $.merge(tempList, res['features']);
     });
-        /*
-        buildings.forEach(function (feature) {
-            console.log("feature.name", feature.name);
-            $.get(phpFile,
-              { function: "getBuildingCoords", buildingName: feature.name }, function (latLng) {
-                  var latlng = eval(latLng);
-                  mapData.push(
-                    {
-                        geometry: {
-                            coordinates: [latlng],
-                            type: "Polygon"
-                        },
-                        id: feature.name,
-                        properties: {
-                            color: "grey",
-                            level: 0
-                        },
-                        type: "Feature"
-                    });
-                  console.log(mapData);
-                 
-              });
-        });
+    var buildings = {"features": tempList};
+    console.log("buildings: ", buildings);
+    var indoorLayer = new L.Indoor(buildings, {
+        getLevel: function (feature) {
+        return feature.properties.level;
+        },
+        onEachFeature: function (feature, layer) {
+           layer.bindPopup(JSON.stringify(feature.properties, null, 4));
+        },
+        style: function (feature) {
+           var fill = feature.properties.color;
+           return {
+                  fillColor: fill,
+                  weight: 1,
+                   color: '#666',
+                   fillOpacity: 1
+           };
+         },
+         getRoomName: function (feature) {
+                return [feature.id, bname];
+         }
+     });
 
-        var indoorLayer = new L.Indoor(mapData, {
-            getLevel: function (feature) {
-                return feature.properties.level;
-            },
-            onEachFeature: function (feature, layer) {
-                layer.bindPopup(JSON.stringify(feature.properties, null, 4));
-            },
-            style: function (feature) {
-                var fill = feature.properties.color;
+            indoorLayer.setLevel("0");
 
-                return {
-                    fillColor: fill,
-                    weight: 1,
-                    color: '#666',
-                    fillOpacity: 1
-                };
-            }
-        });
+            indoorLayer.addTo(campus_map);
 
-        indoorLayer.setLevel("0");
+            var levelControl = new L.Control.Level({
+                level: 0,
+                levels: [0,1,2,3]
+            });
 
-        indoorLayer.addTo(campus_map);
+            // Connect the level control to the indoor layer
+            levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
 
-        var levelControl = new L.Control.Level({
-            level: "0",
-            levels: indoorLayer.getLevels()
-        });
+            levelControl.addTo(campus_map);
 
-        // Connect the level control to the indoor layer
-        levelControl.addEventListener("levelchange", indoorLayer.setLevel, indoorLayer);
-
-        levelControl.addTo(campus_map);
-
-mapData.forEach(function (data) {
-    console.log("result: ", data);
-})
-        */
-
+});
 
 
 
