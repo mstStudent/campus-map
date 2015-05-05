@@ -1,6 +1,4 @@
-﻿<?php require("./php/dbHandler.php"); ?>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -41,16 +39,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"> Missouri S&T Map</a>
+          <a class="navbar-brand" href="#" style = "color: white;"> Missouri S&T Map</a>
         </div>
     
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.html">Buildings</a></li>
+            <li><a href="index.html" style = "color: white;">Buildings</a></li>
             <li class="active">  <a href="schedule.html">Schedule</a></li>
-            <li><a href="events.html">Events</a></li>
+            <li><a href="events.html" style = "color: white;">Events</a></li>
             <li>
-            <li><a href="about.html">About</a></li> </font>
+            <li><a href="about.html" style = "color: white;">About</a></li> </font>
             </li>
           </ul>
           <!--
@@ -74,56 +72,61 @@
         <p>Enter your class name (Ex. CS5201), or filter by buildings and rooms</p>
         <br>
         
- 
-        <table id="filters">
-         <tr>
-          <td><input></input></td>
-           <td>
-             <p>Buildings </p>
-            <div id="building_search">
+        
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Search by Class Number</th>
+        <th>Buildings</th>
+        <th>Rooms</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="form-group">
+            <input class="form-control" id="focusedInput" type="text" placeholder = "Ex. Senior Design">
+          </div>
+        </td>
+        <td>
+        
+             <div id="building_search">
               <select>
-                
+                <option selected='true'></option>
               </select>
             </div>
-            </td>
-             <td>      <p>   Rooms  </p>
-            <div id="room_search">
-              <select>
-                
-              </select>
-            </div>
-          </td>
-           </tr>
-        </table>
-
         
         
+        </td>
+        <td>            
+        <div id="room_search">
+          <select>
+            
+          </select>
+        </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+    <button id="startSearch" type="button" class="btn btn-default">Search</button>
+    
+   </div>
+   
+  <!-- Main component for a primary marketing message or call to action -->
+      <div id = "schedule-results" class="jumbotron">
+        
+        <div id="dataIsHere">
+        </div>
+     
       </div>
-
     </div>
     
      <!-- Libraries used -->
       <script src="js/jquery-2.1.1.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
 
-	  <script>
-         
-         var phpFile = "php/dbHandler.php";
-         
+      <script src="js/schedule.js"></script>
 
-         $.get(phpFile, { function: "getAllBuildings" } , function(php_results){
-           var buildings = eval(php_results)
-           buildings.forEach(function (feature) {
-               $("#building_search select")
-                   .append($("<option></option>")
-                   .attr("value", feature.name)
-                   .text(feature.name));
-              console.log("feature.name ", feature.name);
-             })
-         })
-         
-
-
-	  </script>
   </body>
 </html>
