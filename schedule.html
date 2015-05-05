@@ -165,6 +165,7 @@
               var result = eval(php_results)
               result.forEach(function (feature) {
                  //feature.forEach
+                   $("#dataIsHere").empty();
                    $("#dataIsHere").append($("<p></p>")
                     .text( feature.ID + ' ' + feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' + feature.name + ' ' + feature.roomID + ' ' + feature.section));
                     //.ID + ' ' feature.endDate + ' ' + feature.endTime + ' ' + feature.instructor + ' ' + feature.name + ' ' feature.name + ' ' + feature.roomID + ' ' feature.section));
