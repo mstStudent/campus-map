@@ -1,6 +1,4 @@
-<?php require("./php/dbHandler.php"); ?>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -80,26 +78,6 @@
       <script src="js/jquery-2.1.1.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
 
-	  <script>
-         
-         var phpFile = "php/dbHandler.php";
-         
-
-         $.get(phpFile, { function: "getAllBuildings" } , function(php_results){
-           var buildings = eval(php_results)
-           buildings.forEach(function (feature) {
-              var select = $("#building_search");
-              console.log("feature.name ", feature.name);
-             })
-         })
-         
-
-
-	  </script>
-
-      <!-- Scripts the team developed -->
-      
-      <script src="js/map.js"></script>
-      <script src="js/index.js"></script>
+      <script src="js/events.js"></script>
   </body>
 </html>

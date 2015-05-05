@@ -212,6 +212,7 @@ function getRoomEvents() {
 		$stmt->bindParam(':roomID', $roomID, PDO::PARAM_STR);
 		
 		$stmt->execute();
+       
 		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	//var_dump($results);
