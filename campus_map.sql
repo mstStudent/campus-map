@@ -363,11 +363,11 @@ CREATE TABLE IF NOT EXISTS `events` (
 --
 
 INSERT INTO `events` (`ID`, `name`, `startDate`, `endDate`, `startTime`, `endTime`, `section`, `instructor`, `roomID`, `days`) VALUES
-('acm1', ' ACM Meeting', '2015-01-20', '2015-05-15', '17:00:00', '18:00:00', '', ' ercal@mst.edu', ' rG3', ' 000001'),
-('advising1', ' Advising Week', '2015-03-23', '2015-03-27', '08:00:00', '15:00:00', '', ' price@mst.edu', ' rG1', ' 111110'),
+('acm1', 'ACM Meeting', '2015-01-20', '2015-05-15', '17:00:00', '18:00:00', '', 'ercal@mst.edu', 'rG3', '000001'),
+('advising1', 'Advising Week', '2015-03-23', '2015-03-27', '08:00:00', '15:00:00', '', 'price@mst.edu', 'rG1', '111110'),
 ('CS3500', 'Programming Languages', '2015-01-20', '2015-05-15', '14:00:00', '15:15:00', 'a', ' ricardom@mst.edu', 'cs104', '0101000'),
-('cs4900', ' Senior Design', '2015-01-20', '2015-05-15', '15:30:00', '16:45:00', 'a', ' ricardom@mst.edu', ' cs104', ' 010100'),
-('wacm1', ' WACM Meeting', '2015-01-20', '2015-05-15', '12:00:00', '13:00:00', '', ' leopold@mst.edu', ' cs110', ' 000001');
+('cs4900', 'Senior Design', '2015-01-20', '2015-05-15', '15:30:00', '16:45:00', 'a', 'ricardom@mst.edu', 'cs104', '010100'),
+('wacm1', 'WACM Meeting', '2015-01-20', '2015-05-15', '12:00:00', '13:00:00', '', 'leopold@mst.edu', 'cs110', '000001');
 
 -- --------------------------------------------------------
 
@@ -389,11 +389,11 @@ CREATE TABLE IF NOT EXISTS `instructors` (
 --
 
 INSERT INTO `instructors` (`fName`, `lName`, `dept`, `office`, `email`, `phone`) VALUES
-('Dan', ' Lin', ' Computer Science', ' cs102', ' dlin@mst.edu', ' 123456789'),
-('Fikret', ' Ercal', ' Computer Science', ' cs101', ' ercal@mst.edu', ' 123456789'),
-('Jennifer', ' Leopold', ' Computer Science', ' cs102', ' leopold@mst.edu', ' 123456789'),
-('Clayton', ' Price', ' Computer Science', ' cs100', ' price@mst.edu', ' 123456789'),
-('Ricardo', ' Morales', ' Computer Science', ' cs100', ' ricardom@mst.edu', ' 123456789');
+('Dan', 'Lin', 'Computer Science', 'cs102', 'dlin@mst.edu', '123456789'),
+('Fikret', 'Ercal', 'Computer Science', 'cs101', 'ercal@mst.edu', '123456789'),
+('Jennifer', 'Leopold', 'Computer Science', 'cs102', 'leopold@mst.edu', '123456789'),
+('Clayton', 'Price', 'Computer Science', 'cs100', 'price@mst.edu', '123456789'),
+('Ricardo', 'Morales', 'Computer Science', 'cs100', 'ricardom@mst.edu', '123456789');
 
 -- --------------------------------------------------------
 
